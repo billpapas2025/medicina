@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Generar datos simulados
 np.random.seed(42)
@@ -53,41 +52,15 @@ def get_health_recommendation(age, blood_sugar, cholesterol, genotype):
 # Interfaz de usuario con Streamlit
 st.title("Recomendaciones de Salud Personalizadas")
 
-st.sidebar.header("Ingrese sus datos")
 # Formularios para la entrada de datos del usuario
-age = st.sidebar.slider("Edad", 20, 80, 30)
-blood_sugar = st.sidebar.slider("Nivel de Azúcar en Sangre (mg/dL)", 70, 180, 100)
-cholesterol = st.sidebar.slider("Colesterol (mg/dL)", 150, 300, 200)
-genotype = st.sidebar.selectbox("Genotipo", ["AA", "AG", "GG"])
+age = st.slider("Edad", 20, 80, 30)
+blood_sugar = st.slider("Nivel de Azúcar en Sangre (mg/dL)", 70, 180, 100)
+cholesterol = st.slider("Colesterol (mg/dL)", 150, 300, 200)
+genotype = st.selectbox("Genotipo", ["AA", "AG", "GG"])
 
 # Botón para generar recomendaciones
-if st.sidebar.button("Obtener Recomendaciones"):
+if st.button("Obtener Recomendaciones"):
     recommendations = get_health_recommendation(age, blood_sugar, cholesterol, genotype)
-    st.subheader("Recomendaciones de Salud")
+    st.write("### Recomendaciones de Salud:")
     for rec in recommendations:
         st.write(f"- {rec}")
-
-# Mostrar gráficos de distribución de datos simulados
-st.subheader("Distribución de Datos Simulados")
-
-fig, ax = plt.subplots(3, 1, figsize=(10, 15))
-ax[0].hist(df['age'], bins=20, color='skyblue')
-ax[0].set_title('Distribución de la Edad')
-ax[0].set_xlabel('Edad')
-ax[0].set_ylabel('Frecuencia')
-
-ax[1].hist(df['blood_sugar'], bins=20, color='lightgreen')
-ax[1].set_title('Distribución del Nivel de Azúcar en Sangre')
-ax[1].set_xlabel('Nivel de Azúcar en Sangre (mg/dL)')
-ax[1].set_ylabel('Frecuencia')
-
-ax[2].hist(df['cholesterol'], bins=20, color='salmon')
-ax[2].set_title('Distribución del Colesterol')
-ax[2].set_xlabel('Colesterol (mg/dL)')
-ax[2].set_ylabel('Frecuencia')
-
-st.pyplot(fig)
-
-# Mostrar una tabla de los datos simulados
-st.subheader("Datos Simulados")
-st.dataframe(df)
